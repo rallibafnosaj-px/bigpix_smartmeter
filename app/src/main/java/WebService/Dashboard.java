@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.bigpix_smartmeter.GlobalVariables;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -68,7 +69,6 @@ public class Dashboard {
                         listOfItems.add(model);
 
 
-
                         Log.e("OpenDocuments: ", transNo);
 
                     }
@@ -92,23 +92,53 @@ public class Dashboard {
         retryPolicty(stringRequest);
         Volley.newRequestQueue(context).add(stringRequest);
     }
-    public void ProcessTransaction(String id, String amountDue, String transNo, ImageView loading, AlertDialog alertDialog)
-    {
+
+    public void UploadProofOfPayment(String id, String transNo, String convertedImage) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL.UPLOADPROOFOFPAYMENT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("UploadProofPayment: ", error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<>();
+
+                params.put("ID", id);
+                params.put("transNo", transNo);
+                params.put("picture", convertedImage);
+
+                return params;
+            }
+        };
+        retryPolicty(stringRequest);
+        Volley.newRequestQueue(context).add(stringRequest);
+    }
+
+    public void ProcessTransaction(String id, String amountDue, String transNo, ImageView loading, AlertDialog alertDialog) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL.PROCESSTRANSACTION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-               if(response.equals("0"))
-               {
-                   loading.setVisibility(View.INVISIBLE);
-                   alertDialog.hide();
-               }
+                if (response.equals("0")) {
+                    for (int a = 0; a < GlobalVariables.listOfAttachments.size(); a++) {
+                        UploadProofOfPayment(id, transNo, Adapter.RetrieveOpenDocuments.bitmaptoString(GlobalVariables.listOfAttachments.get(a)));
+                    }
+                    GlobalVariables.listOfAttachments.clear();
+                    loading.setVisibility(View.INVISIBLE);
+                    alertDialog.hide();
+                }
                else
                {
                    Toast.makeText(context, "Please try again.", Toast.LENGTH_SHORT).show();
                }
-
-
 
 
             }
@@ -142,4 +172,6 @@ public class Dashboard {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0,
                 -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
+
+
 }

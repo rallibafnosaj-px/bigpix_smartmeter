@@ -21,11 +21,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bigpix_smartmeter.GlobalVariables;
 import com.example.bigpix_smartmeter.R;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
-
 
 
 public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocuments.GetViewHolder> {
@@ -35,6 +35,10 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
     List<Model.RetrieveOpenDocuments> listOfItems;
     Activity activity;
     private final int IMG_REQUEST = 2;
+
+    public static CheckBox cb_attachment1;
+    public static CheckBox cb_attachment2;
+    public static CheckBox cb_attachment3;
 
 
     public RetrieveOpenDocuments(Context context, List<Model.RetrieveOpenDocuments> listOfItems, Activity activity) {
@@ -95,9 +99,9 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
         Button btn_attachment1 = viewinflater.findViewById(R.id.btn_attachment1);
         Button btn_attachment2 = viewinflater.findViewById(R.id.btn_attachment2);
         Button btn_attachment3 = viewinflater.findViewById(R.id.btn_attachment3);
-        CheckBox cb_checkBox1 = viewinflater.findViewById(R.id.cb_attachment1);
-        CheckBox cb_checkBox2 = viewinflater.findViewById(R.id.cb_attachment2);
-        CheckBox cb_checkBox3 = viewinflater.findViewById(R.id.cb_attachment3);
+        cb_attachment1 = viewinflater.findViewById(R.id.cb_attachment1);
+        cb_attachment2 = viewinflater.findViewById(R.id.cb_attachment2);
+        cb_attachment3 = viewinflater.findViewById(R.id.cb_attachment3);
 
         tv_amountDue.setText(tv_amountDue.getText().toString() + " " + amountDue);
         tv_collection.setText(tv_collection.getText().toString() + " " + position);
@@ -107,15 +111,19 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 ProcessTransaction(iv_loading, viewinflater.getContext(), transNo, documentID, amountDue, alertDialog);
+
+
             }
         });
 
         btn_attachment1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity = (Activity) view.getContext();
+                GlobalVariables.isAttachment1 = true;
                 selectImage();
+
             }
         });
 
@@ -123,14 +131,18 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
         btn_attachment2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Yey2", Toast.LENGTH_SHORT).show();
+                GlobalVariables.isAttachment2 = true;
+                selectImage();
+
             }
         });
 
         btn_attachment3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Yey3", Toast.LENGTH_SHORT).show();
+                GlobalVariables.isAttachment3 = true;
+                selectImage();
+
             }
         });
 
@@ -142,7 +154,7 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
         activity.startActivityForResult(intent, IMG_REQUEST);
     }
 
-    public String bitmaptoString(Bitmap bitmap) {
+    public static String bitmaptoString(Bitmap bitmap) {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, byteArrayOutputStream);
@@ -156,7 +168,15 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
 
         iv_loading.setVisibility(View.VISIBLE);
         WebService.Dashboard onlineDB = new WebService.Dashboard(context, activity);
-        onlineDB.ProcessTransaction(documentID, amountDue, transNo, iv_loading, alertDialog);
+
+
+        if (GlobalVariables.listOfAttachments.size() == 0) {
+            Toast.makeText(context, "Select image for proof of payment.", Toast.LENGTH_SHORT).show();
+        } else {
+            onlineDB.ProcessTransaction(documentID, amountDue, transNo, iv_loading, alertDialog);
+
+        }
+
 
     }
 

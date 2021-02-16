@@ -6,5 +6,6 @@ public class URL {
     public static String LOGINACCOUNT = ROOT_URL + "LoginAccount.php";
     public static String RETRIEVEOPENDOCUMENTS = ROOT_URL + "RetrieveOpenDocuments.php";
     public static String PROCESSTRANSACTION = ROOT_URL + "ProcessTransaction.php";
+    public static String UPLOADPROOFOFPAYMENT = ROOT_URL + "UploadProofOfPayment.php";
 
 }
