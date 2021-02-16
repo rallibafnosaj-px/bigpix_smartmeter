@@ -130,7 +130,7 @@
             android:layout_toRightOf="@+id/btn_attachment3"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:id="@+id/pcheckouta3check"
+            android:id="@+id/cb_attachment3"
             android:clickable="false"
             android:checked="false"
             >
