@@ -50,7 +50,6 @@ public class MainActivity {
                             }
 
 
-//                            Toast.makeText(context, "" + username + " " + password,  Toast.LENGTH_SHORT).show();
 
 
                             Intent intent = new Intent(context, Dashboard.class);

@@ -3,6 +3,7 @@ package WebService;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bigpix_smartmeter.GlobalVariables;
+import com.example.bigpix_smartmeter.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -132,6 +134,11 @@ public class Dashboard {
                 if (response.equals("0")) {
 
                     Toast.makeText(context, "Successful.", Toast.LENGTH_SHORT).show();
+
+
+                    Intent intent = new Intent(context, com.example.bigpix_smartmeter.Dashboard.class);
+                    activity.startActivity(intent);
+
 
                     for (int a = 0; a < GlobalVariables.listOfAttachments.size(); a++) {
                         UploadProofOfPayment(id, transNo, Adapter.RetrieveOpenDocuments.bitmaptoString(GlobalVariables.listOfAttachments.get(a)));
