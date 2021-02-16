@@ -41,8 +41,10 @@ public class Dashboard {
 
     public void RetrieveOpenDocuments(RecyclerView recyclerView, Activity activity)
     {
+
         List<RetrieveOpenDocuments> listOfItems = new ArrayList<>();
         Adapter.RetrieveOpenDocuments adapter = new Adapter.RetrieveOpenDocuments(context, listOfItems, activity);
+
 
         recyclerView.setAdapter(adapter);
 
@@ -128,6 +130,9 @@ public class Dashboard {
             public void onResponse(String response) {
 
                 if (response.equals("0")) {
+
+                    Toast.makeText(context, "Successful.", Toast.LENGTH_SHORT).show();
+
                     for (int a = 0; a < GlobalVariables.listOfAttachments.size(); a++) {
                         UploadProofOfPayment(id, transNo, Adapter.RetrieveOpenDocuments.bitmaptoString(GlobalVariables.listOfAttachments.get(a)));
                     }

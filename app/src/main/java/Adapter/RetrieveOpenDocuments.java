@@ -25,7 +25,9 @@ import com.example.bigpix_smartmeter.GlobalVariables;
 import com.example.bigpix_smartmeter.R;
 
 import java.io.ByteArrayOutputStream;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 
 public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocuments.GetViewHolder> {
@@ -103,10 +105,16 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
         cb_attachment2 = viewinflater.findViewById(R.id.cb_attachment2);
         cb_attachment3 = viewinflater.findViewById(R.id.cb_attachment3);
 
-        tv_amountDue.setText(tv_amountDue.getText().toString() + " " + amountDue);
+
+        String COUNTRY = "PH";
+        String LANGUAGE = "en";
+        String convertedAmountDue = NumberFormat.getCurrencyInstance(new Locale(LANGUAGE, COUNTRY)).format(Double.parseDouble(amountDue));
+
+
+        tv_amountDue.setText(tv_amountDue.getText().toString() + " " + convertedAmountDue);
         tv_collection.setText(tv_collection.getText().toString() + " " + position);
         tv_transNo.setText(tv_transNo.getText().toString() + " " + transNo);
-        et_amountRendered.setText(amountDue);
+        et_amountRendered.setText(convertedAmountDue);
 
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
