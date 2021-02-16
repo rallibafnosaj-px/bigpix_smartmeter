@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="10dp"
+    app:cardCornerRadius="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="5dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/lukechesser"
+        android:elevation="10dp">
+
+        <TextView
+            android:id="@+id/tv_position"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:elevation="20dp"
+            android:fontFamily="@font/lora"
+            android:letterSpacing="0.15"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp"
+
+            >
+
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/tv_transNo"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="70dp"
+            android:background="#43000000"
+            android:fontFamily="@font/lexend"
+            android:letterSpacing="0.05"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="3dp"
+            android:textColor="#FFFFFF"
+
+            android:textSize="13dp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_dueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_transNo"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:background="#43000000"
+            android:fontFamily="@font/lexend"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="3dp"
+            android:textColor="#FBFBFB"
+            android:textSize="13dp">
+
+        </TextView>
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:elevation="5dp"
+            android:scaleType="fitCenter"
+            app:lottie_rawRes="@raw/bw">
+
+
+        </com.airbnb.lottie.LottieAnimationView>
+
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

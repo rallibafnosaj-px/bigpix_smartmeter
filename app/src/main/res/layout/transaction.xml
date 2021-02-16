@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="5dp"
+    app:cardCornerRadius="20dp"
+    >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Collection: #"
+            android:layout_marginLeft="20dp"
+            android:textSize="25dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/lexend"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:id="@+id/tv_position"
+
+            >
+        </TextView>
+
+        <TextView
+
+                android:id="@+id/tv_transNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_position"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/lexend"
+                android:text="Transaction Number: "
+                android:textColor="#000000"
+                android:textSize="15dp">
+
+
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Amount Due:"
+
+            android:textColor="#000000"
+            android:fontFamily="@font/lexend"
+            android:textSize="15dp"
+            android:id="@+id/tv_amountDue"
+            android:layout_below="@+id/tv_transNo"
+
+            >
+
+        </TextView>
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="Amount:"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/tl_amountRendered"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/tv_amountDue"
+            android:layout_marginLeft="20dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_amountRendered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lexend"
+                android:inputType="numberDecimal"
+                android:enabled="false"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tl_amountRendered"
+            android:layout_toRightOf="@+id/btn_attachment1"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/cb_attachment1"
+            android:clickable="false"
+            android:checked="false"
+
+
+            >
+
+        </CheckBox>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_attachment1"
+            android:layout_toRightOf="@+id/btn_attachment2"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/cb_attachment2"
+            android:clickable="false"
+            android:checked="false"
+
+
+            >
+
+        </CheckBox>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_attachment2"
+            android:layout_toRightOf="@+id/btn_attachment3"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/pcheckouta3check"
+            android:clickable="false"
+            android:checked="false"
+            >
+
+        </CheckBox>
+
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tl_amountRendered"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border"
+            android:text="Attachment: #1"
+            android:textSize="25px"
+            android:id="@+id/btn_attachment1"
+            >
+        </Button>
+
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_attachment1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border1"
+            android:text="Attachment: #2"
+            android:textSize="25px"
+            android:id="@+id/btn_attachment2"
+            >
+
+        </Button>
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_attachment2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border1"
+            android:textSize="25px"
+            android:text="Attachment: #3"
+            android:id="@+id/btn_attachment3"
+            >
+
+        </Button>
+
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/btn_attachment3"
+
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/border1"
+            android:text="SUBMIT"
+            android:id="@+id/btn_submit"
+            >
+
+        </Button>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/loading"
+
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            app:lottie_autoPlay="true"
+            android:scaleType="centerInside"
+            app:lottie_loop="true"
+            android:id="@+id/iv_loading"
+            >
+
+        </com.airbnb.lottie.LottieAnimationView>
+
+
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

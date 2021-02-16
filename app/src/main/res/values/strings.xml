@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">bigpix_smartmeter</string>
+
+
+    <!--    Main Activity-->
+    <string name="et_usernamehint">Username:</string>
+    <string name="et_passwordhint">Password:</string>
+    <string name="btn_logintext">Login</string>
+    <string name="btn_changeiptext">Change IP Address</string>
+    <string name="tv_appversion">Bigpix Smartmeter Version 1.0.0</string>
+    <string name="lbl_appbar">Login.</string>
+
+</resources>
