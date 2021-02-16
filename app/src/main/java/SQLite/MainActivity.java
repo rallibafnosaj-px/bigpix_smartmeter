@@ -1,6 +1,8 @@
 package SQLite;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -14,7 +16,10 @@ public class MainActivity extends SQLiteOpenHelper {
     private static final String LOCATION_TBL = "location_tbl" ;
     private static final String IP_TBL = "ip_tbl";
 
-    Context context;
+
+    Cursor cursor;
+    SQLiteDatabase db;
+    String query;
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -42,6 +47,49 @@ public class MainActivity extends SQLiteOpenHelper {
         db.execSQL(createTableLogin);
         db.execSQL(createTableLocation);
         db.execSQL(createTableIP);
+    }
+    public String RetrieveIPAddress()
+    {
+        String ipAddress = "";
+        query = "Select ip_ipaddress from ip_tbl";
+
+        db = getWritableDatabase();
+
+        cursor = db.rawQuery(query, null);
+
+        if(cursor.getCount() > 0)
+        {
+            if(cursor.moveToFirst())
+            {
+                ipAddress = cursor.getString(0);
+            }
+
+        }
+
+        cursor.close();
+        return ipAddress;
+
+    }
+    public void InsertIPAddress(String ipAddress)
+    {
+        ContentValues cv = new ContentValues();
+        cv.put("ip_ipaddress", ipAddress + ":8080");
+
+        db = getWritableDatabase();
+
+        db.insert(IP_TBL,null,cv);
+
+
+    }
+    public void UpdateIPAddress(String ipAddress)
+    {
+        query = "Update " + IP_TBL + " set ip_ipaddress = " + "'" + ipAddress + "'";
+
+        db = getWritableDatabase();
+
+        db.execSQL(query);
+
+
     }
 
 
