@@ -77,46 +77,63 @@ public class Dashboard extends AppCompatActivity {
 
             if (GlobalVariables.isAttachment1 == true) {
 
+                try {
+                    GlobalVariables.listOfAttachments.remove(0);
+                } catch (Exception e) {
+
+                }
 
 
                 try {
-                    GlobalVariables.listOfAttachments.remove(0);
+
                     GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
                 } catch (Exception e) {
-
 
                 }
 
 
                 RetrieveOpenDocuments.cb_attachment1.setChecked(true);
                 GlobalVariables.isAttachment1 = false;
+
             }
             if (GlobalVariables.isAttachment2 == true) {
 
-
                 try {
                     GlobalVariables.listOfAttachments.remove(1);
+                } catch (Exception e) {
+
+                }
+
+
+                try {
+
                     GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
                 } catch (Exception e) {
 
                 }
 
-                GlobalVariables.listOfAttachments.add(bitmap);
+
                 RetrieveOpenDocuments.cb_attachment2.setChecked(true);
                 GlobalVariables.isAttachment2 = false;
             }
             if (GlobalVariables.isAttachment3 == true) {
 
 
-
                 try {
                     GlobalVariables.listOfAttachments.remove(2);
+                } catch (Exception e) {
+
+                }
+
+
+                try {
+
                     GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
                 } catch (Exception e) {
 
                 }
 
-                GlobalVariables.listOfAttachments.add(bitmap);
+
                 RetrieveOpenDocuments.cb_attachment3.setChecked(true);
                 GlobalVariables.isAttachment3 = false;
             }
