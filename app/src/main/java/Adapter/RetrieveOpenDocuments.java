@@ -5,6 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +30,10 @@ import com.example.bigpix_smartmeter.GlobalVariables;
 import com.example.bigpix_smartmeter.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -158,8 +166,31 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
 
     private void selectImage() {
 
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        activity.startActivityForResult(intent, IMG_REQUEST);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        //
+
+        String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
+        File newdir = new File(dir);
+        newdir.mkdirs();
+
+        String file = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
+
+        File newfile = new File(file);
+        try {
+            newfile.createNewFile();
+        } catch (IOException e) {
+
+        }
+
+        GlobalVariables.image = Uri.fromFile(newfile);
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, GlobalVariables.image);
+        activity.startActivityForResult(cameraIntent, IMG_REQUEST);
+
+
     }
 
     public static String bitmaptoString(Bitmap bitmap) {
@@ -180,6 +211,7 @@ public class RetrieveOpenDocuments extends RecyclerView.Adapter<RetrieveOpenDocu
 
         if (GlobalVariables.listOfAttachments.size() == 0) {
             Toast.makeText(context, "Select image for proof of payment.", Toast.LENGTH_SHORT).show();
+            iv_loading.setVisibility(View.INVISIBLE);
         } else {
             onlineDB.ProcessTransaction(documentID, amountDue, transNo, iv_loading, alertDialog);
 

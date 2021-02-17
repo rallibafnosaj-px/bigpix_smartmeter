@@ -141,6 +141,7 @@ public class Dashboard {
 
 
                     for (int a = 0; a < GlobalVariables.listOfAttachments.size(); a++) {
+
                         UploadProofOfPayment(id, transNo, Adapter.RetrieveOpenDocuments.bitmaptoString(GlobalVariables.listOfAttachments.get(a)));
                     }
                     GlobalVariables.listOfAttachments.clear();

@@ -1,6 +1,7 @@
 package com.example.bigpix_smartmeter;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,4 +15,6 @@ public class GlobalVariables {
 
 
     public static List<Bitmap> listOfAttachments = new ArrayList<Bitmap>();
+
+    public static Uri image;
 }

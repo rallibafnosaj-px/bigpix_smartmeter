@@ -44,7 +44,7 @@ public class Dashboard extends AppCompatActivity {
         sl_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                sl_refresh.setColorSchemeColors(Color.BLUE, Color.BLUE, Color.BLUE);
+                sl_refresh.setColorSchemeColors(Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN);
                 AddingOpenDocumentsToRecyclerView();
                 sl_refresh.setRefreshing(false);
 
@@ -72,52 +72,61 @@ public class Dashboard extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (data != null) {
-            Uri path = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
-
-                if (GlobalVariables.isAttachment1 == true) {
-
-                    try {
-                        GlobalVariables.listOfAttachments.remove(0);
-                    } catch (Exception e) {
-
-                    }
-
-                    GlobalVariables.listOfAttachments.add(bitmap);
-                    RetrieveOpenDocuments.cb_attachment1.setChecked(true);
-                    GlobalVariables.isAttachment1 = false;
-                }
-                if (GlobalVariables.isAttachment2 == true) {
-
-                    try {
-                        GlobalVariables.listOfAttachments.remove(1);
-                    } catch (Exception e) {
-
-                    }
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
 
 
-                    GlobalVariables.listOfAttachments.add(bitmap);
-                    RetrieveOpenDocuments.cb_attachment2.setChecked(true);
-                    GlobalVariables.isAttachment2 = false;
-                }
-                if (GlobalVariables.isAttachment3 == true) {
+            if (GlobalVariables.isAttachment1 == true) {
 
-                    try {
-                        GlobalVariables.listOfAttachments.remove(2);
-                    } catch (Exception e) {
 
-                    }
 
-                    GlobalVariables.listOfAttachments.add(bitmap);
-                    RetrieveOpenDocuments.cb_attachment3.setChecked(true);
-                    GlobalVariables.isAttachment3 = false;
+                try {
+                    GlobalVariables.listOfAttachments.remove(0);
+                    GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
+                } catch (Exception e) {
+
+
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                RetrieveOpenDocuments.cb_attachment1.setChecked(true);
+                GlobalVariables.isAttachment1 = false;
+            }
+            if (GlobalVariables.isAttachment2 == true) {
+
+
+                try {
+                    GlobalVariables.listOfAttachments.remove(1);
+                    GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
+                } catch (Exception e) {
+
+                }
+
+                GlobalVariables.listOfAttachments.add(bitmap);
+                RetrieveOpenDocuments.cb_attachment2.setChecked(true);
+                GlobalVariables.isAttachment2 = false;
+            }
+            if (GlobalVariables.isAttachment3 == true) {
+
+
+
+                try {
+                    GlobalVariables.listOfAttachments.remove(2);
+                    GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
+                } catch (Exception e) {
+
+                }
+
+                GlobalVariables.listOfAttachments.add(bitmap);
+                RetrieveOpenDocuments.cb_attachment3.setChecked(true);
+                GlobalVariables.isAttachment3 = false;
             }
         }
     }
+
+    public Bitmap uriToBitmap(Uri uri) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), GlobalVariables.image);
+        return bitmap;
+    }
+
+
 }
