@@ -19,7 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bigpix_smartmeter.GlobalVariables;
-import com.example.bigpix_smartmeter.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,12 +30,12 @@ import java.util.Map;
 
 import Model.RetrieveOpenDocuments;
 
-public class Dashboard {
+public class DashboardActivity {
 
     Context context;
     Activity activity;
 
-    public Dashboard(Context context, Activity activity) {
+    public DashboardActivity(Context context) {
         this.context = context;
         this.activity = activity;
     }
@@ -72,15 +71,13 @@ public class Dashboard {
                         Model.RetrieveOpenDocuments model = new Model.RetrieveOpenDocuments(transNo, dueDate, unitPrice, itemCode, id);
                         listOfItems.add(model);
 
-
                         Log.e("OpenDocuments: ", transNo);
 
                     }
 
 
                 } catch (Exception e) {
-
-
+                    Toast.makeText(activity, "" + e.toString(), Toast.LENGTH_SHORT).show();
                 }
 
                 Adapter.RetrieveOpenDocuments adapter = new Adapter.RetrieveOpenDocuments(context, listOfItems, activity);
@@ -97,17 +94,29 @@ public class Dashboard {
         Volley.newRequestQueue(context).add(stringRequest);
     }
 
-    public void UploadProofOfPayment(String id, String transNo, String convertedImage) {
+    public void UploadProofOfPayment(String documentID, String transNo, String convertedImage) {
+
+        GlobalVariables.processList = 0;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL.UPLOADPROOFOFPAYMENT, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
+                if(response.equals("0"))
+                {
+                    GlobalVariables.processList = 2;
+                    GlobalVariables.imageCounter = GlobalVariables.imageCounter + 1;
+                }
+                else
+                {
+                    Toast.makeText(context, "hehe", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("UploadProofPayment: ", error.getMessage());
+                Toast.makeText(activity, "" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -115,7 +124,7 @@ public class Dashboard {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("ID", id);
+                params.put("ID", documentID);
                 params.put("transNo", transNo);
                 params.put("picture", convertedImage);
 
@@ -126,27 +135,16 @@ public class Dashboard {
         Volley.newRequestQueue(context).add(stringRequest);
     }
 
-    public void ProcessTransaction(String id, String amountDue, String transNo, ImageView loading, AlertDialog alertDialog) {
+    public void ProcessTransaction(String documentID, String amountDue, String transNo) {
+
+        GlobalVariables.processList = 0;
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL.PROCESSTRANSACTION, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 if (response.equals("0")) {
-
-                    Toast.makeText(context, "Successful.", Toast.LENGTH_SHORT).show();
-
-
-                    Intent intent = new Intent(context, com.example.bigpix_smartmeter.Dashboard.class);
-                    activity.startActivity(intent);
-
-
-                    for (int a = 0; a < GlobalVariables.listOfAttachments.size(); a++) {
-
-                        UploadProofOfPayment(id, transNo, Adapter.RetrieveOpenDocuments.bitmaptoString(GlobalVariables.listOfAttachments.get(a)));
-                    }
-                    GlobalVariables.listOfAttachments.clear();
-                    loading.setVisibility(View.INVISIBLE);
-                    alertDialog.hide();
+                    GlobalVariables.processList = 2;
                 }
                else
                {
@@ -158,7 +156,7 @@ public class Dashboard {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("ProcessTransaction: ", error.getMessage());
+                Log.e("ProcessTransaction: ", error.toString());
             }
         })
         {
@@ -168,7 +166,7 @@ public class Dashboard {
                 Map<String,String> params = new HashMap<>();
 
 
-                params.put("ID", id);
+                params.put("ID", documentID);
                 params.put("amountDue", amountDue);
                 params.put("transNo", transNo);
 

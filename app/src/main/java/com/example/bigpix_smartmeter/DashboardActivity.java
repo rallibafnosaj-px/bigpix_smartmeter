@@ -13,19 +13,20 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.widget.Toast;
+import android.util.Base64;
+import android.view.View;
 
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 
 import Adapter.RetrieveOpenDocuments;
 
-public class Dashboard extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity {
 
     RecyclerView rv_retrieveOpenDocuments;
     SwipeRefreshLayout sl_refresh;
-    Bitmap bitmap;
 
-    WebService.Dashboard onlineDB = new WebService.Dashboard(Dashboard.this, Dashboard.this);
+
+    WebService.DashboardActivity onlineDB = new WebService.DashboardActivity(DashboardActivity.this);
 
 
     @Override
@@ -36,7 +37,7 @@ public class Dashboard extends AppCompatActivity {
         VariablesCasting();
         SettingUpRecyclerView();
         RefreshLayoutFunction();
-        AddingOpenDocumentsToRecyclerView();
+
 
     }
 
@@ -45,7 +46,7 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 sl_refresh.setColorSchemeColors(Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN);
-                AddingOpenDocumentsToRecyclerView();
+                onlineDB.RetrieveOpenDocuments(rv_retrieveOpenDocuments, DashboardActivity.this);
                 sl_refresh.setRefreshing(false);
 
             }
@@ -56,6 +57,7 @@ public class Dashboard extends AppCompatActivity {
     public void SettingUpRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rv_retrieveOpenDocuments.setLayoutManager(linearLayoutManager);
+        onlineDB.RetrieveOpenDocuments(rv_retrieveOpenDocuments, this);
 
     }
 
@@ -64,9 +66,6 @@ public class Dashboard extends AppCompatActivity {
         sl_refresh = findViewById(R.id.sl_refresh);
     }
 
-    public void AddingOpenDocumentsToRecyclerView() {
-        onlineDB.RetrieveOpenDocuments(rv_retrieveOpenDocuments, this);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -80,17 +79,13 @@ public class Dashboard extends AppCompatActivity {
                 try {
                     GlobalVariables.listOfAttachments.remove(0);
                 } catch (Exception e) {
-
                 }
 
-
                 try {
-
-                    GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
+                    GlobalVariables.listOfAttachments.add(ProcessBitmap(GlobalVariables.outputFileUri));
                 } catch (Exception e) {
 
                 }
-
 
                 RetrieveOpenDocuments.cb_attachment1.setChecked(true);
                 GlobalVariables.isAttachment1 = false;
@@ -101,38 +96,28 @@ public class Dashboard extends AppCompatActivity {
                 try {
                     GlobalVariables.listOfAttachments.remove(1);
                 } catch (Exception e) {
-
                 }
 
-
                 try {
-
-                    GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
+                    GlobalVariables.listOfAttachments.add(ProcessBitmap(GlobalVariables.outputFileUri));
                 } catch (Exception e) {
 
                 }
-
 
                 RetrieveOpenDocuments.cb_attachment2.setChecked(true);
                 GlobalVariables.isAttachment2 = false;
             }
             if (GlobalVariables.isAttachment3 == true) {
 
-
                 try {
                     GlobalVariables.listOfAttachments.remove(2);
                 } catch (Exception e) {
-
                 }
-
 
                 try {
-
-                    GlobalVariables.listOfAttachments.add(uriToBitmap(GlobalVariables.image));
+                    GlobalVariables.listOfAttachments.add(ProcessBitmap(GlobalVariables.outputFileUri));
                 } catch (Exception e) {
-
                 }
-
 
                 RetrieveOpenDocuments.cb_attachment3.setChecked(true);
                 GlobalVariables.isAttachment3 = false;
@@ -140,10 +125,36 @@ public class Dashboard extends AppCompatActivity {
         }
     }
 
-    public Bitmap uriToBitmap(Uri uri) throws IOException {
-        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), GlobalVariables.image);
-        return bitmap;
+
+    public String ProcessBitmap(Uri path) {
+
+        String image = "";
+
+        try {
+
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
+            byte[] imgBytes = byteArrayOutputStream.toByteArray();
+            image = Base64.encodeToString(imgBytes, Base64.DEFAULT);
+
+            return image;
+
+        } catch (Exception e) {
+
+        }
+
+        return image;
+
+
     }
 
 
+
+
+
+    public void GoToReports(View view) {
+        Intent intent = new Intent(this, ReportsActivity.class);
+        startActivity(intent);
+    }
 }

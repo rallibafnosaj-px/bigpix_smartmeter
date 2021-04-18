@@ -14,7 +14,10 @@ public class GlobalVariables {
     public static boolean isAttachment3 = false;
 
 
-    public static List<Bitmap> listOfAttachments = new ArrayList<Bitmap>();
+    public static List<String> listOfAttachments = new ArrayList<String>();
 
-    public static Uri image;
+    public static Uri outputFileUri;
+    public static boolean thread = false;
+    public static int processList = 0;
+    public static int imageCounter = 0;
 }

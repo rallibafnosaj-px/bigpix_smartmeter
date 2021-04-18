@@ -3,7 +3,6 @@ package WebService;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -12,7 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.bigpix_smartmeter.Dashboard;
+import com.example.bigpix_smartmeter.DashboardActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,7 +51,7 @@ public class MainActivity {
 
 
 
-                            Intent intent = new Intent(context, Dashboard.class);
+                            Intent intent = new Intent(context, DashboardActivity.class);
                             activity.finish();
                             activity.startActivity(intent);
 
@@ -70,7 +69,7 @@ public class MainActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         retryPolicty(stringRequest);

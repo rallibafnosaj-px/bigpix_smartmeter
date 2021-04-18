@@ -39,7 +39,7 @@ public class MainActivity extends SQLiteOpenHelper {
 
     public void AddTables(SQLiteDatabase db)
     {
-        String createTableLogin = "CREATE TABLE IF NOT EXISTS " + USERS_TBL + "l (ID integer primary key autoincrement, users_username varchar(250), users_password varchar(250)) ";
+        String createTableLogin = "CREATE TABLE IF NOT EXISTS " + USERS_TBL + " (ID integer primary key autoincrement, users_username varchar(250), users_password varchar(250)) ";
         String createTableLocation = "CREATE TABLE IF NOT EXISTS " + LOCATION_TBL + "(ID integer primary key autoincrement, location_username varchar(250), location_date varchar(250), location_address varchar(250), location_longtitude varchar(250), location_latitude varchar(250)) ";
         String createTableIP = "CREATE TABLE IF NOT EXISTS " + IP_TBL + " (ip_ipaddress varchar(250)) ";
 
@@ -63,7 +63,6 @@ public class MainActivity extends SQLiteOpenHelper {
             {
                 ipAddress = cursor.getString(0);
             }
-
         }
 
         cursor.close();

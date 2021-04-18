@@ -4,34 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardActivity">
+    tools:context=".ReportsActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sl_refresh">
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rv_retrieveOpenDocuments">
-
+        android:id="@+id/rv_reports">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/reports"
-        android:layout_marginBottom="20dp"
-        android:onClick="GoToReports"
-        android:layout_marginRight="10dp">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </RelativeLayout>

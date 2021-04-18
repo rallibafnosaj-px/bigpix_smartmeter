@@ -3,7 +3,9 @@ package com.example.bigpix_smartmeter;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.Volley;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
+
+import java.util.ArrayList;
 
 import WebService.URL;
 
@@ -38,14 +44,31 @@ public class MainActivity extends AppCompatActivity {
 
         VariableCasting();
         IPAddressChecking();
+        CheckPermissions();
 
+    }
+
+    private void CheckPermissions() {
+        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE};
+        Permissions.check(this/*context*/, permissions, null/*rationale*/, null/*options*/, new PermissionHandler() {
+            @Override
+            public void onGranted() {
+
+            }
+
+            public void onDenied(Context context, ArrayList<String> deniedPermissions) {
+                System.exit(1);
+            }
+        });
     }
 
     private void IPAddressChecking() {
 
         if (offlineDB.RetrieveIPAddress().equals("")) {
-            offlineDB.InsertIPAddress("192.168.1.89");
+            offlineDB.InsertIPAddress("192.168.254.111");
+            IPAddressChecking();
         } else {
+
             String ipAddress = offlineDB.RetrieveIPAddress();
 
             URL.ROOT_URL = "http://" + ipAddress + "/bigpix_smartmeter/";
@@ -53,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
             URL.RETRIEVEOPENDOCUMENTS = URL.ROOT_URL + "RetrieveOpenDocuments.php";
             URL.PROCESSTRANSACTION = URL.ROOT_URL + "ProcessTransaction.php";
             URL.UPLOADPROOFOFPAYMENT = URL.ROOT_URL + "UploadProofOfPayment.php";
-            Toast.makeText(this, "" + ipAddress, Toast.LENGTH_SHORT).show();
+            URL.RETRIEVEREPORTS = URL.ROOT_URL + "RetrieveReports.php";
+
         }
 
     }
